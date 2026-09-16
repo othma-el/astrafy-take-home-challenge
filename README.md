@@ -104,9 +104,13 @@ Dimensions:
 - Order ID
 - Customer Segment
 
-## Dashboard
-
 The LookML semantic layer defines reusable business measures and dimensions.
 Because a Looker environment was not provided as part of the challenge, the equivalent metrics were recreated in Looker Studio to support dashboard visualisation.
 
+
+## Dashboard
+
 <PASTE LOOKER STUDIO LINK HERE>
+
+
+
