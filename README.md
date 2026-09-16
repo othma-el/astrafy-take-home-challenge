@@ -107,6 +107,55 @@ Dimensions:
 The LookML semantic layer defines reusable business measures and dimensions.
 Because a Looker environment was not provided as part of the challenge, the equivalent metrics were recreated in Looker Studio to support dashboard visualisation.
 
+## Bonus – Revenue Forecasting
+
+## Forecasting Approach
+
+A monthly revenue forecast for 2027 was created using the historical monthly revenue profile from 2026 combined with seasonality factors.
+
+The objective was to generate an indicative forecast that preserves the monthly sales pattern while avoiding excessive growth assumptions.
+
+The forecast was materialised in:
+
+`forecast_monthly_sales`
+
+and contains:
+
+- Forecast month
+- Revenue observed in 2026
+- Seasonality factor
+- Forecasted revenue
+
+## Assumptions
+
+The forecast is based on the assumption that the seasonal sales pattern observed in 2026 will continue into 2027.
+
+Seasonality factors were applied at the monthly level to capture recurring fluctuations in revenue throughout the year.
+
+## Data Limitations
+
+Historical data for 2025 is incomplete.
+
+The dataset only contains data from July 2025 onwards, while January 2025 to June 2025 is missing.
+
+Because a complete 2025 revenue history was not available:
+
+- A reliable year-over-year analysis could not be performed.
+- Monthly trend calculations between 2025 and 2026 would have been biased.
+- The forecast was therefore based primarily on the complete 2026 revenue pattern and seasonality profile.
+
+## Forecast Interpretation
+
+This forecast should be considered an indicative business forecast rather than a production-grade predictive model.
+
+A production forecasting solution would benefit from:
+
+- Additional years of historical data
+- Complete monthly observations
+- External business drivers (campaigns, promotions, seasonality events)
+- Statistical forecasting techniques such as ARIMA, Prophet, or machine learning approaches
+
+Despite these limitations, the model provides a reasonable estimate of future revenue while maintaining interpretability and business relevance.
 
 ## Dashboard
 
