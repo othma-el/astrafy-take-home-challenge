@@ -18,14 +18,14 @@ from the analytical layer for the purpose of the exercise.
 
 ## dbt Models
 
-stg_orders
-stg_sales
-ex1_orders_2026
-ex2_orders_per_month
-ex3_avg_products_per_order
-ex4_orders_qty_product
-ex5_order_segmentation
-ex6_orders_2026_segmented
+- stg_orders
+- stg_sales
+- ex1_orders_2026
+- ex2_orders_per_month
+- ex3_avg_products_per_order
+- ex4_orders_qty_product
+- ex5_order_segmentation
+- ex6_orders_2026_segmented
 
 ## Data Quality Tests
 
