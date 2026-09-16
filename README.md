@@ -1,5 +1,45 @@
 # Astrafy Take Home Challenge
 
+
+## Data Quality Assessment
+
+Before developing the dbt models, I validated
+the consistency between the orders and sales datasets.
+
+### Checks performed
+
+- Distinct order count comparison
+- Distinct customer count comparison
+- Revenue reconciliation
+- Referential integrity validation
+
+### Findings
+
+An orphan order (5361303) was identified in the
+sales dataset but was missing from orders.
+
+Investigation showed that the related product_id
+(47321) was valid and used in other orders.
+
+Revenue reconciliation revealed a difference of
+47.0833, matching the value of the orphan order.
+
+### Resolution
+
+For the purpose of this exercise, the orphan order
+was excluded from the sales view to maintain
+consistency between both datasets.
+
+In a production environment, validation would be
+performed with the data owner before applying such
+a correction.
+
+
+
+## -----------------------------------------
+
+
+
 ## Architecture
 
 Raw Tables
