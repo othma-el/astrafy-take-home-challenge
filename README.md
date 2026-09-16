@@ -35,11 +35,6 @@ performed with the data owner before applying such
 a correction.
 
 
-
-## -----------------------------------------
-
-
-
 ## Architecture
 
 Raw Tables
@@ -47,14 +42,6 @@ Raw Tables
 → dbt Marts
 → LookML Semantic Layer
 → Looker Studio Dashboard
-
-## Data Quality
-
-An orphan order (5361303) was found in sales
-but not in orders.
-
-The discrepancy was investigated and excluded
-from the analytical layer for the purpose of the exercise.
 
 ## dbt Models
 
