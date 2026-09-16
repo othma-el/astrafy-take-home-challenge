@@ -69,14 +69,33 @@ from the analytical layer for the purpose of the exercise.
 
 ## Data Quality Tests
 
-Implemented tests:
+The following dbt tests were implemented:
 
+### stg_orders
+
+- not_null(order_id)
 - unique(order_id)
+- not_null(customer_id)
+- not_null(order_date)
+
+### stg_sales
+
 - not_null(order_id)
 - not_null(customer_id)
 - not_null(product_id)
+- relationships(order_id → stg_orders.order_id)
 
-All tests passed.
+### Results
+
+All tests passed successfully.
+
+PASS = 8
+WARN = 0
+ERROR = 0
+
+The relationship test validates referential integrity between
+sales and orders and confirms that each sale is associated
+with a valid order.
 
 ## LookML Semantic Layer
 
