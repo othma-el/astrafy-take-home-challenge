@@ -172,36 +172,74 @@ The relationship test validates referential integrity between sales and orders.
 
 ---
 
-# LookML Semantic Layer
+## LookML Semantic Layer
 
 The semantic layer was designed to be deployment-ready and follows LookML best practices.
 
-Files:
+### Files
 
 ```text
 lookml/
 ├── astrafy.model.lkml
-└── orders_2026.view.lkml
+├── orders_2026.view.lkml
+└── forecast_monthly_sales.view.lkml
 ```
 
-## Dimensions
+### Explore: Orders & Customer Segmentation
+
+#### Dimensions
 
 - Order ID
 - Customer ID
 - Order Date
 - Customer Segment
 - Product Quantity
-
-## Measures
-
-- Number of Orders
-- Number of Customers
 - Net Sales
-- Average Order Value
+
+#### Measures
+
+- Total Revenue
+- Total Orders
+- Total Customers
+- Record Count
 - Total Product Quantity
+- Average Order Value
 - Average Products per Order
 
-The semantic layer enables business users to analyse customer behaviour, revenue performance, and customer segmentation in a reusable and governed way.
+#### Business Use Cases
+
+- Revenue analysis
+- Customer behaviour analysis
+- Order performance tracking
+- Customer segmentation analysis
+- Sales trend analysis
+
+### Explore: Revenue Forecast
+
+#### Dimensions
+
+- Forecast Month
+- Revenue 2025
+- Revenue 2026
+- Growth Rate %
+
+#### Measures
+
+- 2025 Half Year Revenue
+- 2026 Total Revenue
+- 2027 Total Revenue
+- Forecast Growth Contribution
+- Record Count
+
+#### Business Use Cases
+
+- Revenue forecasting
+- Growth monitoring
+- Budget planning
+- Marketing planning
+- Future performance analysis
+
+The semantic layer enables business users to analyse customer behaviour, revenue performance, customer segmentation, and future revenue projections in a reusable, governed, and AI-ready manner.
 
 ---
 
