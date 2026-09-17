@@ -1,163 +1,293 @@
 # Astrafy Take Home Challenge
 
+## Overview
 
-## Data Quality Assessment
+This project was developed as part of the Astrafy Analytics Engineering Take Home Challenge.
 
-Before developing the dbt models, I validated
-the consistency between the orders and sales datasets.
+The solution covers:
 
-### Checks performed
+- Data quality assessment and validation
+- dbt data transformation pipeline
+- Customer segmentation logic
+- LookML semantic layer
+- Business dashboard
+- Revenue forecasting bonus exercise
 
-- Distinct order count comparison
-- Distinct customer count comparison
-- Revenue reconciliation
-- Referential integrity validation
+---
 
-### Findings
+# Architecture
 
-An orphan order (5361303) was identified in the
-sales dataset but was missing from orders.
+```text
+Raw Data
+    ↓
+Standardised Views
+    ↓
+dbt Staging Models
+    ↓
+dbt Mart Models
+    ↓
+LookML Semantic Layer
+    ↓
+Looker Studio Dashboard
+```
 
-Investigation showed that the related product_id
-(47321) was valid and used in other orders.
+---
 
-Revenue reconciliation revealed a difference of
-47.0833, matching the value of the orphan order.
+# Data Quality Assessment
 
-### Resolution
+Before building the transformation pipeline, both datasets were validated to ensure consistency.
 
-For the purpose of this exercise, the orphan order
-was excluded from the sales view to maintain
-consistency between both datasets.
+## Validation Performed
 
-In a production environment, validation would be
-performed with the data owner before applying such
-a correction.
+### Order Validation
 
+Compared distinct `order_id` values between:
 
-## Architecture
+- raw.v_orders
+- raw.v_sales
 
-Raw Tables
-→ dbt Staging
-→ dbt Marts
-→ LookML Semantic Layer
-→ Looker Studio Dashboard
+An orphan order was identified:
 
-## dbt Models
+```text
+order_id = 5361303
+```
 
-- stg_orders
-- stg_sales
-- ex1_orders_2026
-- ex2_orders_per_month
-- ex3_avg_products_per_order
-- ex4_orders_qty_product
-- ex5_order_segmentation
-- ex6_orders_2026_segmented
+The order existed in the sales dataset but was missing from the orders dataset.
 
-## Data Quality Tests
+The issue was investigated and documented.
 
-The following dbt tests were implemented:
+### Customer Validation
+
+Compared distinct customer counts between both datasets.
+
+Result:
+
+```text
+1,716 distinct customers
+```
+
+were found in both datasets.
+
+### Revenue Validation
+
+Compared total revenue between:
+
+- v_orders
+- v_sales
+
+The revenue discrepancy matched the orphan order identified during the order validation process.
+
+### Remediation
+
+For the purpose of the challenge, the orphan order was excluded from the sales view to maintain referential integrity between orders and sales.
+
+In a production environment, this modification should first be validated with the business owner or source system owner.
+
+---
+
+# dbt Models
+
+## Staging
 
 ### stg_orders
+
+Standardises column names and prepares order-level data.
+
+### stg_sales
+
+Standardises sales-line data and product information.
+
+## Marts
+
+### ex1_orders_2026
+
+Number of distinct orders in 2026.
+
+### ex2_orders_per_month
+
+Monthly order volume for 2026.
+
+### ex3_avg_products_per_order
+
+Average quantity of products per order by month.
+
+### ex4_orders_qty_product
+
+Order-level table enriched with product quantities.
+
+### ex5_order_segmentation
+
+Customer segmentation model.
+
+Business rules:
+
+| Segment | Definition |
+|----------|----------|
+| New | 0 orders in previous 12 months |
+| Returning | 1 to 3 orders in previous 12 months |
+| VIP | 4+ orders in previous 12 months |
+
+### ex6_orders_2026_segmented
+
+Final analytical dataset used for reporting and dashboarding.
+
+Contains:
+
+- order_date
+- customer_id
+- order_id
+- net_sales
+- qty_product
+- order_segmentation
+
+---
+
+# Data Quality Tests
+
+Implemented using dbt generic tests.
+
+## stg_orders
 
 - not_null(order_id)
 - unique(order_id)
 - not_null(customer_id)
 - not_null(order_date)
 
-### stg_sales
+## stg_sales
 
 - not_null(order_id)
 - not_null(customer_id)
 - not_null(product_id)
 - relationships(order_id → stg_orders.order_id)
 
-### Results
+## Results
 
-All tests passed successfully.
-
+```text
 PASS = 8
 WARN = 0
 ERROR = 0
+```
 
-The relationship test validates referential integrity between
-sales and orders and confirms that each sale is associated
-with a valid order.
+The relationship test validates referential integrity between sales and orders.
 
-## LookML Semantic Layer
+---
+
+# LookML Semantic Layer
+
+The semantic layer was designed to be deployment-ready and follows LookML best practices.
 
 Files:
 
-- astrafy.model.lkml
-- orders_2026.view.lkml
+```text
+lookml/
+├── astrafy.model.lkml
+└── orders_2026.view.lkml
+```
 
-Measures:
+## Dimensions
+
+- Order ID
+- Customer ID
+- Order Date
+- Customer Segment
+- Product Quantity
+
+## Measures
+
 - Number of Orders
 - Number of Customers
 - Net Sales
 - Average Order Value
+- Total Product Quantity
 - Average Products per Order
 
-Dimensions:
-- Order Date
-- Customer ID
-- Order ID
+The semantic layer enables business users to analyse customer behaviour, revenue performance, and customer segmentation in a reusable and governed way.
+
+---
+
+# Dashboard
+
+The dashboard focuses on:
+
+## Executive KPIs
+
+- Total Revenue
+- Total Orders
+- Total Customers
+- Average Order Value
+- Average Products per Order
+
+## Revenue Analysis
+
+- Revenue by Month
+- Revenue by Customer Segment
+
+## Customer Analysis
+
+- Orders by Segment
+- Customers by Segment
+- Revenue by Segment
+
+## Filters
+
+- Month
 - Customer Segment
 
-The LookML semantic layer defines reusable business measures and dimensions.
-Because a Looker environment was not provided as part of the challenge, the equivalent metrics were recreated in Looker Studio to support dashboard visualisation.
+Dashboard Link:
 
-## Bonus – Revenue Forecasting
+```text
+PASTE_LOOKER_STUDIO_LINK_HERE
+```
 
-## Forecasting Approach
+---
 
-A monthly revenue forecast for 2027 was created using the historical monthly revenue profile from 2026 combined with seasonality factors.
+# Bonus – Revenue Forecast
 
-The objective was to generate an indicative forecast that preserves the monthly sales pattern while avoiding excessive growth assumptions.
+A monthly revenue forecast for 2027 was created using the historical revenue profile and seasonality factors.
 
-The forecast was materialised in:
-
-`forecast_monthly_sales`
-
-and contains:
-
-- Forecast month
-- Revenue observed in 2026
-- Seasonality factor
-- Forecasted revenue
+The objective was to provide an indicative business forecast while maintaining explainability and business relevance.
 
 ## Assumptions
 
-The forecast is based on the assumption that the seasonal sales pattern observed in 2026 will continue into 2027.
+The forecast assumes that the seasonal revenue patterns observed in the historical data continue into 2027.
 
-Seasonality factors were applied at the monthly level to capture recurring fluctuations in revenue throughout the year.
+Seasonality factors were calculated at the monthly level and applied to generate monthly revenue estimates.
 
-## Data Limitations
+## Data Limitation
 
 Historical data for 2025 is incomplete.
 
-The dataset only contains data from July 2025 onwards, while January 2025 to June 2025 is missing.
+The dataset contains records from July 2025 onwards, while data for January 2025 through June 2025 is unavailable.
 
 Because a complete 2025 revenue history was not available:
 
-- A reliable year-over-year analysis could not be performed.
-- Monthly trend calculations between 2025 and 2026 would have been biased.
-- The forecast was therefore based primarily on the complete 2026 revenue pattern and seasonality profile.
+- A reliable year-over-year trend analysis could not be performed.
+- Trend estimation based on 2025 and 2026 would have introduced bias.
+- The forecast therefore relies primarily on the complete 2026 revenue profile and seasonality patterns.
 
-## Forecast Methodology
+## Forecast Interpretation
 
-1. Growth Trend
-The year-over-year growth rate was calculated using the comparable Jul-Dec period available in both 2025 and 2026.
+The forecast should be considered an indicative business forecast and proof of concept rather than a production-grade predictive model.
 
-2. Seasonality
-Monthly seasonality factors were derived from the full 2026 sales distribution.
+A production solution would benefit from:
 
-3. Forecast Generation
-The projected 2027 annual sales volume was estimated by applying the observed growth trend to 2026 revenue and then allocating sales to individual months according to the 2026 seasonal pattern.
+- More historical data
+- Complete yearly observations
+- External business drivers
+- Statistical forecasting methods (ARIMA, Prophet, Machine Learning)
 
-## Dashboard
+---
 
-<PASTE LOOKER STUDIO LINK HERE>
+# Technology Stack
 
+- BigQuery
+- dbt Core
+- LookML
+- Looker Studio
+- Git / GitHub
 
+---
 
+# Author
+
+Othman El Mahi
