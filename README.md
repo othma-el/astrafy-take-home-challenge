@@ -33,7 +33,7 @@ Looker Studio Dashboard
 
 ---
 
-# Data Quality Assessment
+# Data Quality Assessment (analysis)
 
 Before building the transformation pipeline, both datasets were validated to ensure consistency.
 
