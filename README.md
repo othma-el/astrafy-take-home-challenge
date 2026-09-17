@@ -327,5 +327,5 @@ Othman El Mahi
 # Dashboard Link:
 
 ```text
-https://datastudio.google.com/u/0/reporting/ff0d6bee-eebc-4e11-91f7-142b51651c0c/page/5wk8F/edit
+https://datastudio.google.com/u/0/reporting/ff0d6bee-eebc-4e11-91f7-142b51651c0c/page/5wk8F
 ```
