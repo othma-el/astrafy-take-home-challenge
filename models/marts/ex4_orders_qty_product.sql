@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH products_per_order AS (
 
     SELECT
