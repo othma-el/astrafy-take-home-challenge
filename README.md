@@ -33,7 +33,7 @@ Looker Studio Dashboard
 
 ---
 
-# Data Quality Assessment (analysis)
+# Data Quality Assessment [analysis]
 
 Before building the transformation pipeline, both datasets were validated to ensure consistency.
 
@@ -85,7 +85,7 @@ In a production environment, this modification should first be validated with th
 
 ---
 
-# dbt Models
+# dbt Models [models]
 
 ## Staging
 
@@ -172,7 +172,7 @@ The relationship test validates referential integrity between sales and orders.
 
 ---
 
-## LookML Semantic Layer
+## LookML Semantic Layer [lookml]
 
 The semantic layer was designed to be deployment-ready and follows LookML best practices.
 
