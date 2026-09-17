@@ -1,52 +1,68 @@
 {{ config(materialized='table') }}
 
-WITH sales_2026 AS (
+WITH monthly_sales AS (
 
     SELECT
+        EXTRACT(YEAR FROM order_date) AS sales_year,
         EXTRACT(MONTH FROM order_date) AS sales_month,
-        SUM(net_sales) AS revenue_2026
-
+        SUM(net_sales) AS revenue
     FROM {{ ref('stg_orders') }}
-
-    WHERE EXTRACT(YEAR FROM order_date) = 2026
-
-    GROUP BY 1
+    GROUP BY 1,2
 
 ),
 
-avg_2026 AS (
+growth_rate AS (
 
     SELECT
-        AVG(revenue_2026) AS avg_monthly_revenue
-    FROM sales_2026
+        (
+            SUM(CASE
+                    WHEN sales_year = 2026
+                     AND sales_month BETWEEN 7 AND 12
+                    THEN revenue
+                    ELSE 0
+                END)
+
+            /
+
+            SUM(CASE
+                    WHEN sales_year = 2025
+                     AND sales_month BETWEEN 7 AND 12
+                    THEN revenue
+                    ELSE 0
+                END)
+
+        ) AS growth_factor
+
+    FROM monthly_sales
 
 )
 
 SELECT
 
-    DATE(2027, s.sales_month, 1) AS forecast_month,
+    DATE(2027, m26.sales_month, 1) AS forecast_month,
 
-    s.revenue_2026,
+    ROUND(m25.revenue, 2) AS revenue_2025,
+
+    ROUND(m26.revenue, 2) AS revenue_2026,
 
     ROUND(
-        s.revenue_2026
-        /
-        a.avg_monthly_revenue,
+        (growth_factor - 1) * 100,
         2
-    ) AS seasonality_factor,
+    ) AS growth_rate_pct,
 
     ROUND(
-        a.avg_monthly_revenue
-        *
-        (
-            s.revenue_2026
-            /
-            a.avg_monthly_revenue
-        ),
+        m26.revenue * growth_factor,
         2
     ) AS forecast_sales_2027
 
-FROM sales_2026 s
-CROSS JOIN avg_2026 a
+FROM monthly_sales m26
+
+LEFT JOIN monthly_sales m25
+    ON m26.sales_month = m25.sales_month
+   AND m25.sales_year = 2025
+
+CROSS JOIN growth_rate
+
+WHERE m26.sales_year = 2026
 
 ORDER BY forecast_month
