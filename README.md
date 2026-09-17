@@ -252,6 +252,7 @@ The dashboard focuses on:
 - Total Revenue
 - Total Orders
 - Total Customers
+- Total Product Sold
 - Average Order Value
 - Average Products per Order
 
