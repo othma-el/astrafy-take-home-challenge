@@ -144,18 +144,16 @@ Because a complete 2025 revenue history was not available:
 - Monthly trend calculations between 2025 and 2026 would have been biased.
 - The forecast was therefore based primarily on the complete 2026 revenue pattern and seasonality profile.
 
-## Forecast Interpretation
+## Forecast Methodology
 
-This forecast should be considered an indicative business forecast rather than a production-grade predictive model.
+1. Growth Trend
+The year-over-year growth rate was calculated using the comparable Jul-Dec period available in both 2025 and 2026.
 
-A production forecasting solution would benefit from:
+2. Seasonality
+Monthly seasonality factors were derived from the full 2026 sales distribution.
 
-- Additional years of historical data
-- Complete monthly observations
-- External business drivers (campaigns, promotions, seasonality events)
-- Statistical forecasting techniques such as ARIMA, Prophet, or machine learning approaches
-
-Despite these limitations, the model provides a reasonable estimate of future revenue while maintaining interpretability and business relevance.
+3. Forecast Generation
+The projected 2027 annual sales volume was estimated by applying the observed growth trend to 2026 revenue and then allocating sales to individual months according to the 2026 seasonal pattern.
 
 ## Dashboard
 
