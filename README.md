@@ -142,7 +142,7 @@ Contains:
 
 ---
 
-# Data Quality Tests
+# Data Quality Tests [schema.yml]
 
 Implemented using dbt generic tests.
 
