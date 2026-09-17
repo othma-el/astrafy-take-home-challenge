@@ -222,6 +222,7 @@ lookml/
 - Revenue 2025
 - Revenue 2026
 - Growth Rate %
+- Forecast Sales 2027
 
 #### Measures
 
