@@ -202,7 +202,6 @@ lookml/
 - Total Orders
 - Total Customers
 - Record Count
-- Total Product Quantity
 - Average Order Value
 - Average Products per Order
 
