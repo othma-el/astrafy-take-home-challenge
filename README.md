@@ -271,12 +271,6 @@ The dashboard focuses on:
 - Month
 - Customer Segment
 
-Dashboard Link:
-
-```text
-PASTE_LOOKER_STUDIO_LINK_HERE
-```
-
 ---
 
 # Bonus – Revenue Forecast
@@ -329,3 +323,9 @@ A production solution would benefit from:
 # Author
 
 Othman El Mahi
+
+# Dashboard Link:
+
+```text
+https://datastudio.google.com/u/0/reporting/ff0d6bee-eebc-4e11-91f7-142b51651c0c/page/5wk8F/edit
+```
