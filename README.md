@@ -272,6 +272,37 @@ The dashboard focuses on:
 - Month
 - Customer Segment
 
+## Customer Segmentation Assumptions
+
+Customer segmentation was implemented at the order level based on the number of orders placed by a customer during the previous 12 months.
+
+An edge case was identified where a customer places multiple orders on the same day as their first purchase.
+
+Example:
+
+```text
+1499133
+
+05/07/2026 | Order 4592739
+05/07/2026 | Order 4592878
+```
+
+In this scenario, both orders are classified as **New** because neither order has a prior order within the preceding 12-month lookback window.
+
+This behaviour was intentionally preserved and not adjusted during the challenge.
+
+At this stage, it is not possible to determine whether a same-day subsequent order should be considered a New or Returning customer interaction without a clear business definition. The source data only provides the order date, and no additional ordering sequence or timestamp information was available to establish which order occurred first during the day.
+
+In a real business environment, I would discuss this scenario with business stakeholders and clarify the expected behaviour before modifying the logic.
+
+Possible business rules could include:
+
+- Treat all first-day orders as **New**.
+- Treat only the first order as **New** and subsequent same-day orders as **Returning**.
+- Use order timestamps (if available) to determine the exact purchase sequence.
+
+For the purpose of this challenge, the segmentation logic was kept unchanged to remain fully consistent with the original business rule and to avoid introducing assumptions that were not explicitly defined.
+
 ---
 
 # Bonus – Revenue Forecast
